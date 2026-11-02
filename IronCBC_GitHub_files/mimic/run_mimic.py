@@ -147,7 +147,7 @@ def slope_oe(y, p):
     s = LogisticRegression(C=1e6).fit(lp, y).coef_[0][0]
     return round(float(s), 2), round(float(y.mean() / p.mean()), 2)
 def rule(d):
-    low = ((d.female == 1) & (d.HGB < 12)) | ((d.female == 0) & (d.HGB < 13))
+    low = d.HGB < np.where((d.female == 1) | (d.age < 15), 12.0, 13.0)  # WHO anaemia
     return (low | (d.MCV < 80)).values
 def recal(y, p, r, reps=50):
     p = np.clip(p, 1e-4, 1 - 1e-4); lp = np.log(p / (1 - p)).reshape(-1, 1); se = []; sp = []; fl = []
