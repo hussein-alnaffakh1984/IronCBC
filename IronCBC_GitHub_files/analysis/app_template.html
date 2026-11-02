@@ -326,7 +326,7 @@ function score(row,calName){
  const thr = c.threshold;
  return {p0,p,thr,pos:p>=thr};
 }
-function clinicalRule(r){ const low = r.sex==='F' ? r.HGB<12 : r.HGB<13; return low || r.MCV<80; }
+function clinicalRule(r){ const low = (r.sex==='F' || r.age<15) ? r.HGB<12 : r.HGB<13; return low || r.MCV<80; }
 function indices(r){
  return [
   ['Mentzer','MCV/RBC',r.MCV/r.RBC,13],

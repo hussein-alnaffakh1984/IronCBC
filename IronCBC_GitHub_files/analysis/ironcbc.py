@@ -45,8 +45,9 @@ def apply_calibration(p_raw, cal):
 
 
 def clinical_rule(df):
-    """Low Hb (women <12, men <13 g/dL) or MCV < 80 fL."""
-    low = np.where(df['female'] == 1, df['HGB'] < 12, df['HGB'] < 13)
+    """WHO anaemia (Hb <12 g/dL in women and in ages 12-14, <13 g/dL in men aged >=15) or MCV < 80 fL."""
+    cut = np.where((df['female'] == 1) | (df['age'] < 15), 12.0, 13.0)
+    low = df['HGB'] < cut
     return np.asarray(low | (df['MCV'] < 80))
 
 
